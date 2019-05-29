@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { SectionList, View, Dimensions } from 'react-native';
+import { SectionList, View, Dimensions, Platform } from 'react-native';
 import debounce from 'lodash/debounce';
 
 import AlphabeticScrollBar from './components/AlphabeticScrollBar';
@@ -85,7 +85,9 @@ export default class AlphaScrollFlatList extends Component {
                 this.list.scrollToLocation({
                     animated: false,
                     sectionIndex: index,
-                    itemIndex: 0
+                    itemIndex: 0,
+                    // Avoid item row to be hidden by the section
+                    viewPosition: Platform.OS === 'ios' ? 0 : 0.1
                 })
         }
     }

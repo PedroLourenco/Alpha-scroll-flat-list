@@ -89,14 +89,13 @@ class AlphabeticScrollBar extends Component {
                 ref={elem => this.alphabetContainer = elem}
                 {...this.panResponder.panHandlers}
                 onLayout={this.handleOnLayout.bind(this)}
-                style={[styles.container, this.props.scrollBarContainerStyle]}
+                style={[ styles.container, this.props.scrollBarContainerStyle ]}
             >
                 {this.state.alphabet.map(letter => (
                     <View key={letter}>
                         <Text style={{
                             ...styles.letter,
-                            ...this.props.fontColor ? {color: this.props.fontColor} : {},
-                            fontSize: ResponsiveFontSize(this.props.isPortrait ? 2 : 1.6) * this.props.fontSizeMultiplier, 
+                            ...this.props.alphabetTextStyle,
                         }}>
                             {letter}
                         </Text>
@@ -130,8 +129,7 @@ AlphabeticScrollBar.propTypes = {
     activeColor: PropTypes.string,
     reverse: PropTypes.bool,
     isPortrait: PropTypes.bool,
-    fontColor: PropTypes.string,
-    fontSizeMultiplier: PropTypes.number,
+    alphabetTextStyle: PropTypes.object,
     scrollBarContainerStyle: PropTypes.object
 };
 

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FlatList, View, Dimensions } from 'react-native';
+import { SectionList, View, Dimensions } from 'react-native';
 import debounce from 'lodash/debounce';
 
 import AlphabeticScrollBar from './components/AlphabeticScrollBar';
 import AlphabeticScrollBarPointer from './components/AlphabeticScrollBarPointer';
+
 
 export default class AlphaScrollFlatList extends Component {
     constructor(props) {
@@ -72,16 +73,20 @@ export default class AlphaScrollFlatList extends Component {
             if (letter === '#') {
                 //it's a number or a symbol, scroll to the top or to the bottom of the list
                 const firstIndex = 0;
-                const lastIndex = this.props.data.length - 1;
+                const lastIndex = this.props.sections.length - 1;
 
                 index = this.props.reverse ? lastIndex : firstIndex;
             } else {
                 //Get index of item with that letter and scroll to the first result on the list
-                index = this.props.data.findIndex(item => item[this.props.scrollKey].charAt(0).localeCompare(letter) === 0);
+                index = this.props.sections.findIndex(item => item[this.props.scrollKey].charAt(0).localeCompare(letter) === 0);
             }
 
             if (index !== -1)
-                this.list.scrollToOffset({ animated: false, offset: index * this.props.itemHeight });
+                this.list.scrollToLocation({
+                    animated: false,
+                    sectionIndex: index,
+                    itemIndex: 0
+                })
         }
     }
 
@@ -120,7 +125,7 @@ export default class AlphaScrollFlatList extends Component {
     render () {
         return (
             <View onLayout={this.handleOnLayout.bind(this)}>
-                <FlatList
+                <SectionList
                     {...this.props}
                     ref={elem => this.list = elem}
                 />
@@ -129,9 +134,8 @@ export default class AlphaScrollFlatList extends Component {
                         isPortrait={this.state.isPortrait}
                         reverse={this.props.reverse}
                         activeColor={this.props.activeColor}
-                        fontColor={this.props.scrollBarColor}
+                        alphabetTextStyle={this.props.font}
                         scrollBarContainerStyle={this.props.scrollBarContainerStyle}
-                        fontSizeMultiplier={this.props.scrollBarFontSizeMultiplier}
                         onScroll={debounce(this.handleOnScroll.bind(this))}
                         onScrollEnds={debounce(this.handleOnScrollEnds.bind(this))}
                     />

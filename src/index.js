@@ -134,7 +134,7 @@ export default class AlphaScrollFlatList extends Component {
                         isPortrait={this.state.isPortrait}
                         reverse={this.props.reverse}
                         activeColor={this.props.activeColor}
-                        alphabetTextStyle={this.props.font}
+                        alphabetTextStyle={this.props.alphabetTextStyle}
                         scrollBarContainerStyle={this.props.scrollBarContainerStyle}
                         onScroll={debounce(this.handleOnScroll.bind(this))}
                         onScrollEnds={debounce(this.handleOnScrollEnds.bind(this))}
